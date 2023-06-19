@@ -40,9 +40,7 @@ public class 주민등록번호생성프로그램 {
         String backNum = "";
 
         Random random = new Random();
-        for(int i = 0; i < 6; i++){
-            backNum += Integer.toString(random.nextInt(9));
-        }
+        backNum = String.valueOf(random.nextInt(999999) + 1);
 
         return backNum;
     }

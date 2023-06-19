@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+/*
+    박상윤
+*/
+
 public class 놀이동산입장권계산프로그램 {
     public static void main(String[] args) {
 
@@ -28,17 +32,12 @@ public class 놀이동산입장권계산프로그램 {
             return entranceFee;
         }
 
-        if(age < 13){ // 특별 할인
+        if(age < 13 || enterTime >= 17){ // 특별 할인
             entranceFee = 4000;
             return entranceFee;
         }
 
-        if(enterTime >= 17){ // 특별 할일
-            entranceFee = 4000;
-            return entranceFee;
-        }
-
-        if(nationMerit.equals("y") || welfareCard.equals("y")){ // 일반 할인
+        if("y".equals(nationMerit) || "y".equals(welfareCard)){ // 일반 할인
             entranceFee = 8000;
             return entranceFee;
         }

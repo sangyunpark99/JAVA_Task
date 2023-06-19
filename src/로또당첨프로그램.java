@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class 로또당첨프로그램 {
     public static void main(String[] args) {
@@ -10,7 +12,7 @@ public class 로또당첨프로그램 {
         System.out.print("로또 개수를 입력해 주세요.(숫자 1 ~ 10):");
         int lottoNum = sc.nextInt();
 
-        ArrayList<HashSet> eachLottos = getLottoNum(lottoNum);
+        ArrayList<ArrayList<Integer>> eachLottos = getLottoNum(lottoNum);
 
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // 로또 출력시 필요한 알파벳
 
@@ -23,7 +25,7 @@ public class 로또당첨프로그램 {
         System.out.println();
         System.out.println("[로또 발표]");
 
-        ArrayList<HashSet> resultLotto = getLottoNum(1);
+        ArrayList<ArrayList<Integer>> resultLotto = getLottoNum(1);
         ArrayList<Integer> sortedResultLotto = new ArrayList<>(resultLotto.get(0));
 
         Collections.sort(sortedResultLotto); // 번호 정렬
@@ -39,24 +41,31 @@ public class 로또당첨프로그램 {
         showLottoResult(lottoNum,eachLottos,sortedResultLotto, alphabet);
     }
 
-    public static ArrayList<HashSet> getLottoNum(int lottoNum){ // 랜덤한 로또 번호 받기
+    public static ArrayList<ArrayList<Integer>> getLottoNum(int lottoNum){ // 랜덤한 로또 번호 받기
 
         Random random = new Random();
 
-        ArrayList<HashSet> eachLotto = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> eachLotto = new ArrayList<>();
 
         for (int i = 0; i < lottoNum; i++) {
-            HashSet<Integer> lotto = new HashSet<>();
-            for (int j = 0; lotto.size() < 5; j++) { // 중복되는 숫자 제거
-                lotto.add(random.nextInt(1,46));
+            ArrayList<Integer> numbers = new ArrayList<>(IntStream.rangeClosed(1,45).boxed().collect(Collectors.toList()));
+            ArrayList<Integer> lotto = new ArrayList<>();
+
+            while(lotto.size() < 6){
+                int index = random.nextInt(numbers.size());
+                lotto.add(numbers.get(index));
+                numbers.remove(index);
             }
+
+            Collections.sort(lotto);
             eachLotto.add(lotto);
         }
+
 
         return eachLotto;
     }
 
-    public static void showEachLotto(HashSet eachLotto){ // 랜덤한 로또 번호 결과 보여주기
+    public static void showEachLotto(ArrayList<Integer> eachLotto){ // 랜덤한 로또 번호 결과 보여주기
 
         ArrayList<Integer> sortedLotto = new ArrayList<>(eachLotto);
         Collections.sort(sortedLotto); // 로또 정렬
@@ -69,7 +78,7 @@ public class 로또당첨프로그램 {
         }
     }
 
-    public static void showLottoResult(int lottoNum, ArrayList<HashSet> myLotto, ArrayList<Integer> resultLotto, String alphabet){ // 같은 값이 존재하는지 찾기
+    public static void showLottoResult(int lottoNum, ArrayList<ArrayList<Integer>> myLotto, ArrayList<Integer> resultLotto, String alphabet){ // 같은 값이 존재하는지 찾기
 
         System.out.println();
         System.out.println();
@@ -92,7 +101,7 @@ public class 로또당첨프로그램 {
 
     }
 
-    public static int findLottoNum(HashSet myLotto, ArrayList<Integer> resultLotto){
+    public static int findLottoNum(ArrayList<Integer> myLotto, ArrayList<Integer> resultLotto){
         int sameValue = 0;
 
         ArrayList<Integer> myLottoList = new ArrayList<>(myLotto);
